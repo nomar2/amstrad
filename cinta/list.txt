@@ -1,0 +1,47 @@
+ El volumen de la unidad D no tiene etiqueta.
+ El n£mero de serie del volumen es: 7E3A-E58D
+
+ Directorio de D:\Users\Nomar6\Documents\webAmstrad\cinta
+
+08/04/2025  15:18    <DIR>          .
+08/04/2025  15:18    <DIR>          ..
+31/12/2024  13:56            60.224 1942.cdt
+31/12/2024  20:02            26.167 1943.cdt
+23/12/2024  18:10            54.575 Abu_Simbel.cdt
+29/12/2024  16:31            64.891 AFTERWar1.cdt
+29/12/2024  16:31            64.891 AFTERWar1v2.cdt
+29/12/2024  16:32            65.923 AFTERWAR2.cdt
+18/02/2025  00:59            53.774 AsparGP.cdt
+26/12/2024  02:30            71.561 BARBA1A.cdt
+26/12/2024  02:31            71.107 BARBA2A.cdt
+11/02/2025  00:09            89.363 beyondV6.cdt
+05/01/2025  02:59            48.121 bruceleev2.cdt
+18/03/2025  00:06            58.419 buitre.cdt
+29/12/2024  12:40            52.979 camelot.cdt
+29/01/2025  14:01            66.731 commando.cdt
+18/02/2025  14:37            74.696 curro.cdt
+25/12/2024  14:20            49.625 ExplodingFist.cdt
+29/12/2024  13:36            60.719 fernando.cdt
+30/12/2024  13:32            58.139 freddy1.cdt
+30/12/2024  14:16            59.171 freddy2.cdt
+19/02/2025  23:25            51.451 Frost_Byte.cdt
+19/01/2025  03:11            53.516 gameover1.cdt
+19/01/2025  14:49            53.258 gameover2.cdt
+29/12/2024  14:32            54.527 ghostn.cdt
+28/12/2024  23:55            58.139 glider.cdt
+01/01/2025  17:24            54.785 ikari.cdt
+08/04/2025  15:18                 0 list.txt
+23/01/2025  20:00            69.311 navy1.cdt
+23/01/2025  20:16            66.730 navy2.cdt
+29/12/2024  08:58            60.461 nemesis.cdt
+29/12/2024  08:58            58.139 nipper.cdt
+20/03/2025  00:36            17.161 OHMUMMY.cdt
+20/01/2025  14:09            64.118 phantis1.cdt
+20/01/2025  20:23            64.640 phantis2.cdt
+16/03/2025  11:53            59.707 poder_oscuro.cdt
+29/12/2024  08:59            59.191 rygar.cdt
+05/01/2025  13:24            37.753 schess.cdt
+16/02/2025  01:02            65.882 sevilla1.cdt
+16/02/2025  01:02            65.882 sevilla2.cdt
+              38 archivos      2.165.727 bytes
+               2 dirs  767.289.364.480 bytes libres
