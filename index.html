@@ -575,7 +575,7 @@
       </div>
       <div class="form-field">
         <label class="form-label">MENSAJE:</label>
-	<textarea class="form-input" rows="5" placeholder="10 REM Escribe aquí tu mensaje&#10;20 REM Max 500 caracteres&#10;30 END" id="mensaje" name="mensaje" style="resize:vertical"> required</textarea>
+	<textarea class="form-input" rows="5" placeholder="10 REM Escribe aquí tu mensaje&#10;20 REM Max 500 caracteres&#10;30 END" id="mensaje" name="mensaje" style="resize:vertical" required></textarea>
        
       </div>
       <div style="margin-top:1.2rem;display:flex;gap:1rem;flex-wrap:wrap">
@@ -623,57 +623,6 @@
   <span>AMSTRAD CPC — Z80 @ 4MHz — 27 COLORES — AY-3-8912 SOUND CHIP</span><br><br>
   <span style="color:#001f00">© 1984-2026 — MADE WITH LOVE FOR THE RETRO SCENE — ALL YOUR BASE ARE BELONG TO US</span>
 </footer>
-
-<script>
-  function enviarFormulario() {
-    const nombre = document.getElementById('f-nombre').value.trim();
-    const email  = document.getElementById('f-email').value.trim();
-    const asunto = document.getElementById('f-asunto').value;
-    const mensaje= document.getElementById('f-mensaje').value.trim();
-    const msg    = document.getElementById('form-msg');
-    if (!nombre || !email || !asunto || !mensaje) {
-      msg.style.display = 'block'; msg.style.color = 'var(--red)';
-      msg.innerHTML = '⚠ ERROR: Todos los campos son obligatorios. <span class="cursor"></span>';
-      return;
-    }
-    if (!email.includes('@')) {
-      msg.style.display = 'block'; msg.style.color = 'var(--red)';
-      msg.innerHTML = '⚠ ERROR: Email no válido.'; return;
-    }
-    msg.style.display = 'block'; msg.style.color = 'var(--amber)';
-    msg.innerHTML = 'PROCESANDO... ▓▓▓▓▓▓▓▓░░';
-    setTimeout(() => {
-      msg.style.color = 'var(--green)';
-      msg.innerHTML = `✓ MENSAJE ENVIADO<br><span style="color:#006610;font-size:0.75rem">De: ${nombre} &lt;${email}&gt; · ${asunto}</span>`;
-      limpiarFormulario(false);
-    }, 1200);
-  }
-
-  function limpiarFormulario(clearMsg = true) {
-    ['f-nombre','f-email','f-asunto','f-mensaje'].forEach(id => document.getElementById(id).value = '');
-    if (clearMsg) { const m = document.getElementById('form-msg'); m.style.display='none'; m.innerHTML=''; }
-  }
-
-  const h1 = document.querySelector('h1');
-  setInterval(() => {
-    if (Math.random() < 0.05) {
-      h1.style.animation = 'glitch 0.2s steps(1) infinite, pulse-glow 3s ease-in-out infinite';
-      setTimeout(() => { h1.style.animation = 'pulse-glow 3s ease-in-out infinite'; }, 300);
-    }
-  }, 2000);
-
-  const sections = document.querySelectorAll('[id]');
-  const navLinks = document.querySelectorAll('nav a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
-    navLinks.forEach(a => {
-      const active = a.getAttribute('href') === '#' + current;
-      a.style.color = active ? 'var(--green)' : '';
-      a.style.borderBottom = active ? '2px solid var(--green)' : '';
-    });
-  });
-</script>
 
 </body>
 </html>
