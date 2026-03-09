@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMSTRAD WORLD — Juegos Pokeados & Retro</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff41;
+    --green-dim: #00b32c;
+    --green-dark: #003a0f;
+    --green-glow: #00ff4180;
+    --amber: #ffb000;
+    --red: #ff3131;
+    --bg: #020a02;
+    --scanline: rgba(0,0,0,0.25);
+    --border: #00ff4133;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, var(--scanline) 0px, var(--scanline) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+    z-index: 9999;
+    animation: scanMove 8s linear infinite;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 60%, #000000cc 100%);
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  @keyframes scanMove { 0% { background-position: 0 0; } 100% { background-position: 0 100px; } }
+  @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  @keyframes flicker { 0%,95%,100%{opacity:1} 96%{opacity:0.7} 97%{opacity:1} 98%{opacity:0.5} 99%{opacity:0.9} }
+  @keyframes glitch { 0%{transform:translate(0)} 20%{transform:translate(-2px,1px)} 40%{transform:translate(2px,-1px)} 60%{transform:translate(-1px,2px)} 80%{transform:translate(1px,-2px)} 100%{transform:translate(0)} }
+  @keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes pulse-glow { 0%,100%{text-shadow:0 0 5px var(--green),0 0 10px var(--green)} 50%{text-shadow:0 0 15px var(--green),0 0 30px var(--green),0 0 50px var(--green-dim)} }
+
+  header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    animation: flicker 10s infinite;
+  }
+
+  .crt-badge {
+    display: inline-block;
+    font-family: 'VT323', monospace;
+    font-size: 0.9rem;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    padding: 2px 10px;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 8px var(--amber);
+  }
+
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 10px var(--green), 0 0 30px var(--green-dim), 0 0 60px var(--green-dark);
+    animation: pulse-glow 3s ease-in-out infinite;
+    line-height: 1;
+  }
+
+  h1 span { color: var(--amber); text-shadow: 0 0 10px var(--amber), 0 0 30px #ff800060; }
+
+  .subtitle {
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    color: var(--green-dim);
+    margin-top: 0.5rem;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 12px;
+    height: 1.2em;
+    background: var(--green);
+    vertical-align: middle;
+    margin-left: 4px;
+    animation: blink 0.8s step-end infinite;
+  }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 2rem 0;
+    background: #000d00;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    color: var(--green-dim);
+    text-decoration: none;
+    padding: 0.7rem 2.5rem;
+    letter-spacing: 2px;
+    border-right: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+
+  nav a:first-child { border-left: 1px solid var(--border); }
+  nav a:last-child { border-right: none; }
+  nav a:hover { color: var(--bg); background: var(--green); text-shadow: none; }
+  nav a::before { content: '> '; opacity: 0; transition: opacity 0.15s; }
+  nav a:hover::before { opacity: 1; }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    color: var(--green);
+    border-bottom: 1px solid var(--green);
+    padding-bottom: 0.5rem;
+    margin: 3rem 0 1.5rem;
+    text-shadow: 0 0 8px var(--green);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-title::before { content: '//'; color: var(--amber); font-family: 'Share Tech Mono', monospace; }
+
+  .hero-box {
+    border: 1px solid var(--green);
+    padding: 2rem;
+    position: relative;
+    box-shadow: inset 0 0 30px #00ff4108, 0 0 20px #00ff4115;
+    animation: slideIn 0.8s ease forwards;
+  }
+
+  .hero-box::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -0.6rem;
+    left: 1rem;
+    background: var(--bg);
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+    color: var(--amber);
+    letter-spacing: 2px;
+  }
+
+  .hero-box p { line-height: 1.9; color: #00cc33; font-size: 0.95rem; }
+  .prompt { color: var(--amber); margin-right: 0.5rem; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 2rem; border-left: 2px solid var(--border); margin-top: 1rem; }
+
+  .timeline-item { position: relative; padding: 0.8rem 0 0.8rem 1.5rem; border-bottom: 1px solid #001500; }
+
+  .timeline-item::before {
+    content: '◆';
+    position: absolute;
+    left: -0.7rem;
+    top: 0.9rem;
+    color: var(--amber);
+    font-size: 0.7rem;
+    background: var(--bg);
+    padding: 2px 0;
+  }
+
+  .tl-year { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--amber); letter-spacing: 3px; margin-bottom: 0.3rem; }
+  .tl-text { font-size: 0.83rem; color: #009922; line-height: 1.7; }
+
+  /* CARDS */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.3rem; margin-top: 1.5rem; }
+
+  .card {
+    border: 1px solid var(--border);
+    padding: 1.4rem;
+    position: relative;
+    transition: all 0.2s;
+    animation: slideIn 0.6s ease forwards;
+  }
+
+  .card:hover { border-color: var(--green); box-shadow: 0 0 20px var(--green-glow); transform: translateY(-3px); }
+  .card::after { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,transparent,var(--green),transparent); opacity:0; transition:opacity 0.2s; }
+  .card:hover::after { opacity:1; }
+  .card-badge { font-size: 0.68rem; color: var(--amber); letter-spacing: 3px; margin-bottom: 0.5rem; }
+  .card-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700; color: var(--green); text-shadow: 0 0 8px var(--green-glow); margin-bottom: 0.6rem; }
+  .card-desc { font-size: 0.82rem; color: #009922; line-height: 1.7; }
+  .card-specs { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border); font-size: 0.78rem; }
+  .spec-row { display: flex; justify-content: space-between; padding: 2px 0; }
+  .spec-key { color: var(--green-dim); }
+  .spec-val { color: var(--green); }
+
+  /* GAMES GRID */
+  .games-mini { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+  .game-item { border: 1px solid var(--border); padding: 0.8rem; transition: all 0.2s; }
+  .game-item:hover { border-color: var(--green); box-shadow: 0 0 10px var(--green-glow); }
+  .gi-title { font-family: 'VT323', monospace; font-size: 1.1rem; color: var(--green); line-height: 1.2; }
+  .gi-year { font-size: 0.68rem; color: #005510; margin: 3px 0 6px; letter-spacing: 1px; }
+  .gi-badge { display: inline-block; font-size: 0.6rem; padding: 1px 5px; border: 1px solid; letter-spacing: 1px; }
+  .badge-caja { border-color: var(--green); color: var(--green); }
+  .badge-solo { border-color: var(--amber); color: var(--amber); }
+  .badge-rev  { border-color: #ff00ff; color: #ff00ff; }
+  .badge-cinta { border-color: #00ccff; color: #00ccff; }
+  .badge-disco { border-color: var(--amber); color: var(--amber); }
+
+  .dl-btn {
+    display: inline-block;
+    margin-top: 7px;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border: 1px solid var(--green);
+    color: var(--bg);
+    background: var(--green);
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-family: 'Share Tech Mono', monospace;
+    transition: all 0.15s;
+    margin-right: 2px;
+  }
+
+  .dl-btn:hover {
+    background: transparent;
+    color: var(--green);
+  }
+
+  .stats-bar { margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--border); font-size: 0.82rem; color: #006610; line-height: 1.8; }
+
+  /* NOTICE */
+  .notice { border-left: 3px solid var(--amber); padding: 1rem 1.5rem; font-size: 0.88rem; line-height: 1.8; color: #cc8800; margin-bottom: 1.5rem; }
+
+  /* TERMINAL / FORM */
+  .terminal { background: #000800; border: 1px solid var(--green); padding: 1.5rem; font-size: 0.82rem; line-height: 2; box-shadow: 0 0 30px #00ff4110; position: relative; }
+  .terminal::before { content: '● ● ●'; position: absolute; top: 0.5rem; right: 1rem; font-size: 0.6rem; color: #003300; letter-spacing: 5px; }
+
+  .form-field { margin-bottom: 1rem; }
+  .form-label { display: block; font-size: 0.75rem; color: var(--green-dim); letter-spacing: 2px; margin-bottom: 0.3rem; }
+  .form-input { width: 100%; background: #000d00; border: 1px solid var(--border); color: var(--green); font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; padding: 0.5rem 0.8rem; outline: none; transition: border-color 0.2s; }
+  .form-input:focus { border-color: var(--green); box-shadow: 0 0 8px var(--green-glow); }
+  .form-input option { background: #000d00; }
+
+  .crt-btn { font-family: 'VT323', monospace; font-size: 1.1rem; letter-spacing: 2px; padding: 0.4rem 1.2rem; border: 1px solid var(--green); background: transparent; color: var(--green); cursor: pointer; transition: all 0.15s; }
+  .crt-btn:hover { background: var(--green); color: var(--bg); }
+  .crt-btn-sec { border-color: var(--amber); color: var(--amber); }
+  .crt-btn-sec:hover { background: var(--amber); color: var(--bg); }
+
+  /* LINK CARDS */
+  .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .link-card { border: 1px solid var(--border); padding: 1rem; text-decoration: none; display: block; transition: all 0.2s; }
+  .link-card:hover { border-color: var(--green); box-shadow: 0 0 15px var(--green-glow); transform: translateY(-2px); }
+  .lc-icon { font-size: 1.5rem; color: var(--amber); margin-bottom: 0.4rem; }
+  .lc-title { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--green); letter-spacing: 2px; margin-bottom: 0.2rem; }
+  .lc-url { font-size: 0.7rem; color: var(--green-dim); margin-bottom: 0.4rem; letter-spacing: 1px; }
+  .lc-desc { font-size: 0.78rem; color: #006610; line-height: 1.5; }
+
+  footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem 1rem; font-size: 0.75rem; color: #003a00; letter-spacing: 2px; }
+  footer span { color: var(--green-dim); }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: var(--green-dark); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+  @media (max-width: 640px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    nav a { font-size: 1rem; padding: 0.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="crt-badge">◄ AMSTRAD WORLD ► v2.1</div>
+  <h1>AMSTRAD<span>CPC</span></h1>
+  <div class="subtitle">JUEGOS POKEADOS &amp; RETRO COMPUTING<span class="cursor"></span></div>
+</header>
+
+<nav>
+  <a href="#historia">HISTORIA</a>
+  <a href="#modelos">MODELOS</a>
+  <a href="#coleccion">MI COLECCIÓN</a>
+  <a href="#acerca">ACERCA DE</a>
+  <a href="#contacto">CONTACTO</a>
+</nav>
+
+<main>
+
+  <!-- HISTORIA -->
+  <div id="historia">
+    <div class="section-title">HISTORIA</div>
+
+    <div class="hero-box" data-label="HISTORIA.BAS" style="margin-bottom:1.5rem">
+      <p>
+        <span class="prompt">REM</span> <span style="color:var(--amber)">— MI HISTORIA CON EL AMSTRAD CPC —</span><br><br>
+        <span class="prompt">10</span> Todo empezó a mediados de los años 80, cuando bajo el árbol de Navidad apareció una caja enorme. Era un <strong style="color:var(--green)">Amstrad CPC 464</strong> con su monitor verde. Recuerdo la primera vez que escuché el pitido del cassette cargando, el ruido del motor de la cinta y la pantalla a rayas mientras esperaba, con una mezcla de ansiedad y expectación, a que apareciese el juego.<br><br>
+        <span class="prompt">20</span> Aquellos primeros BASIC eran un mundo de posibilidades. <em>"10 PRINT "HOLA" : 20 GOTO 10"</em> fue probablemente el primer programa que escribí. Poco después llegaron los juegos: cintas prestadas por amigos del colegio, revistas con listados que había que teclear a mano durante horas.<br><br>
+        <span class="prompt">30</span> La escena del patio del colegio giraba alrededor de quién tenía más juegos y quién conocía más trucos. Los <strong style="color:var(--amber)">POKES</strong> eran moneda de cambio social: si sabías el poke de vidas infinitas del Gryzor eras el rey del recreo. Se apuntaban en libretas, se fotocopiaban, se intercambiaban como cromos.<br><br>
+        <span class="prompt">40</span> Esta web es un homenaje a esa época, a ese ordenador que me enseñó a programar, a perseverar y a imaginar. El Amstrad CPC no fue solo una máquina; fue una ventana a otro mundo.<br><br>
+        <span class="prompt">50</span> GOTO 10
+      </p>
+    </div>
+
+    <div class="section-title" style="font-size:0.85rem;margin-top:2rem">LÍNEA DE TIEMPO</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-year">1986</div>
+        <div class="tl-text">Mi primer contacto con el CPC 464. La revista <strong style="color:var(--green)">MicroHobby</strong> número 1 comprada en el quiosco abrió un mundo nuevo.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-year">1987</div>
+        <div class="tl-text">Primer juego terminado: <strong style="color:var(--green)">Barbarian</strong>. Sin poker, claro. :-DDDD.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-year">1989</div>
+        <div class="tl-text">Upgrade al <strong style="color:var(--green)">CPC 6128</strong>. La unidad de disco de 3 pulgadas cambió todo. Adiós cassettes lentos, hola disquetes. Pero la cinta sigue teniedo su escencia.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-year">1991</div>
+        <div class="tl-text">Primeros programas propios en <strong style="color:var(--green)">Locomotive BASIC</strong>: un simulador de fútbol y un juego de texto de aventuras.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-year">1993</div>
+        <div class="tl-text">El PC llegó a casa. El Amstrad quedó guardado en el trastero, sin saber que décadas después volvería a buscarlo.</div>
+      </div>
+      <div class="timeline-item" style="border-bottom:none">
+        <div class="tl-year">2015</div>
+        <div class="tl-text">La programación en Z80 siempre fue mi espinita clavada. En 2015 me propuse dominar el <strong style="color:var(--green)">ensamblador del Amstrad</strong> y, gracias a los emuladores, por fin desvelé sus secretos. Volver a "picar" código para este sistema con lo que sé ahora ha sido un viaje increíble. No sé si llamarlo nostalgia o pasión técnica, pero ha sido un sueño volver a dominar los 8 bits.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODELOS -->
+  <div id="modelos">
+    <div class="section-title">MODELOS</div>
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-badge">◄ 1984 ►</div>
+        <div class="card-title">CPC 464</div>
+        <div class="card-desc">El modelo original que lo inició todo. Cassette integrado, monitor incluido y precio competitivo. Más de 2 millones de unidades vendidas en Europa.</div>
+        <div class="card-specs">
+          <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">Z80A @ 4 MHz</span></div>
+          <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">64 KB</span></div>
+          <div class="spec-row"><span class="spec-key">Almacen.</span><span class="spec-val">Cassette integrado</span></div>
+          <div class="spec-row"><span class="spec-key">Colores</span><span class="spec-val">27 paleta / 16 en pantalla</span></div>
+          <div class="spec-row"><span class="spec-key">Sonido</span><span class="spec-val">AY-3-8912 (3 canales)</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-badge">◄ 1985 ►</div>
+        <div class="card-title">CPC 664</div>
+        <div class="card-desc">Versión con disco de 3" en lugar de cassette. Discontinuado rápidamente al llegar el 6128, lo que lo convierte hoy en el modelo más raro y buscado por coleccionistas.</div>
+        <div class="card-specs">
+          <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">Z80A @ 4 MHz</span></div>
+          <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">64 KB</span></div>
+          <div class="spec-row"><span class="spec-key">Almacen.</span><span class="spec-val">Disco 3" — 178 KB/cara</span></div>
+          <div class="spec-row"><span class="spec-key">ROM</span><span class="spec-val">32 KB + AMSDOS</span></div>
+          <div class="spec-row"><span class="spec-key">Rareza</span><span class="spec-val">★★★★★</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-badge">◄ 1985 ►</div>
+        <div class="card-title">CPC 6128</div>
+        <div class="card-desc">El rey de la gama. 128 KB de RAM, disco de 3" y compatible con CP/M. El favorito de programadores y usuarios avanzados, ideal para los mejores juegos.</div>
+        <div class="card-specs">
+          <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">Z80A @ 4 MHz</span></div>
+          <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">128 KB</span></div>
+          <div class="spec-row"><span class="spec-key">Almacen.</span><span class="spec-val">Disco 3" — 178 KB/cara</span></div>
+          <div class="spec-row"><span class="spec-key">SO</span><span class="spec-val">CP/M 2.2 &amp; 3.0</span></div>
+          <div class="spec-row"><span class="spec-key">Sonido</span><span class="spec-val">AY-3-8912 (3 canales)</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-badge">◄ 1990 ►</div>
+        <div class="card-title">CPC 464+ / 6128+</div>
+        <div class="card-desc">Segunda generación con hardware mejorado: 4096 colores, sprites por hardware y DMA de sonido. Más potente, pero llegó demasiado tarde al mercado.</div>
+        <div class="card-specs">
+          <div class="spec-row"><span class="spec-key">Colores</span><span class="spec-val">4096 (paleta 12-bit)</span></div>
+          <div class="spec-row"><span class="spec-key">Sprites</span><span class="spec-val">16 sprites hardware</span></div>
+          <div class="spec-row"><span class="spec-key">Sonido</span><span class="spec-val">DMA + AY-3-8912</span></div>
+          <div class="spec-row"><span class="spec-key">Extra</span><span class="spec-val">Puerto cartuchos</span></div>
+          <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">64 KB / 128 KB</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-badge">◄ 1990 ►</div>
+        <div class="card-title">GX4000</div>
+        <div class="card-desc">Consola basada en el hardware del CPC Plus. Sin teclado, solo cartuchos. Fracaso comercial en su época, hoy es un objeto de colección muy apreciado.</div>
+        <div class="card-specs">
+          <div class="spec-row"><span class="spec-key">Tipo</span><span class="spec-val">Consola de cartuchos</span></div>
+          <div class="spec-row"><span class="spec-key">Base HW</span><span class="spec-val">CPC Plus</span></div>
+          <div class="spec-row"><span class="spec-key">Juegos</span><span class="spec-val">~30 títulos oficiales</span></div>
+          <div class="spec-row"><span class="spec-key">Colección</span><span class="spec-val">★★★★ muy buscado</span></div>
+          <div class="spec-row"><span class="spec-key">Mandos</span><span class="spec-val">2 joysticks analógicos</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-badge">◄ 1985–1993 ►</div>
+        <div class="card-title">PCW / JOYCE</div>
+        <div class="card-desc">Gama orientada a procesamiento de textos. Muy popular en oficinas y entre escritores. El PCW 8256 y 8512 fueron los más vendidos de esta línea con CP/M.</div>
+        <div class="card-specs">
+          <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">Z80 @ 4 MHz</span></div>
+          <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">256 KB – 512 KB</span></div>
+          <div class="spec-row"><span class="spec-key">SO</span><span class="spec-val">CP/M Plus</span></div>
+          <div class="spec-row"><span class="spec-key">Uso</span><span class="spec-val">Ofimática / Escritura</span></div>
+          <div class="spec-row"><span class="spec-key">Impresora</span><span class="spec-val">Integrada en el paquete</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MI COLECCIÓN -->
+  <div id="coleccion">
+    <div class="section-title">MI COLECCIÓN</div>
+
+    <div class="notice">
+      📦 Colección reunida a lo largo de más de 30 años, con piezas originales, restauraciones y adquisiciones en mercadillos, rastros. Cada pieza tiene su historia.
+    </div>
+
+    <div class="section-title" style="font-size:0.85rem;margin-top:2.5rem">
+      JUEGOS EN CINTA
+      <span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--green-dim);letter-spacing:1px">(.CDT)</span>
+    </div>
+    <div class="games-mini">
+     <div class="game-item"><div class="gi-title">1942</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/1942.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Abu Simbel</div><div class="gi-year">1985 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/Abu_Simbel.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">After War 1</div><div class="gi-year">1989 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/AFTERWAR1.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">After War 2</div><div class="gi-year">1989 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/AFTERWAR2.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Aspar GP</div><div class="gi-year">1988 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/AsparGP.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Barbarian 1A</div><div class="gi-year">1987 · Palace Software</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/BARBA1A.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Barbarian 2A</div><div class="gi-year">1988 · Palace Software</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/BARBA2A.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Beyond the Ice Palace</div><div class="gi-year">1988 · Elite</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/beyond.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Bomb Jack</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/bomb.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Bruce Lee</div><div class="gi-year">1984 · US Gold</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/brucelee.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">El Buitre</div><div class="gi-year">1988 · Topo Soft</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/buitre.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Camelot Warriors</div><div class="gi-year">1986 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/camelot.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Commando</div><div class="gi-year">1985 · Elite</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/commando.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Curro Jimenez</div><div class="gi-year">1989 · Zigurat</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/curro.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">The Way of the Exploding Fist</div><div class="gi-year">1985 · Melbourne House</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/ExplodingFist.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Fernando Martin Basket Master</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/fernando.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Freddy Hardest en Manhattan Sur</div><div class="gi-year">1989 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/freddy-hardest-en-manhattan-sur.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Freddy Hardest 1</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/freddy1.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Freddy Hardest 2</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/freddy2.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Frost Byte</div><div class="gi-year">1986 · Mikro-Gen</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/Frost_Byte.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Game Over 1</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/gameover1.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Game Over 2</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/gameover2.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Ghosts 'n Goblins</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/ghostn.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Glider Rider</div><div class="gi-year">1986 · Quicksilva</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/glider.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Ikari Warriors</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/ikari.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Jail Break</div><div class="gi-year">1986 · Konami</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/jail_break.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Navy Moves 1</div><div class="gi-year">1988 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/navy1.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Navy Moves 2</div><div class="gi-year">1988 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/navy2.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Nemesis</div><div class="gi-year">1986 · Konami</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/nemesis.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Nipper</div><div class="gi-year">1986 · Dentons</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/nipper.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Oh Mummy</div><div class="gi-year">1984 · Amsoft</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/OHMUMMY.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Phantis 1</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/phantis1.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Phantis 2</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/phantis2.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">El Poder Oscuro</div><div class="gi-year">1988 · Zigurat</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/poder_oscuro.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Rygar</div><div class="gi-year">1987 · US Gold</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/rygar.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Sargon II Chess</div><div class="gi-year">1984 · Hayden Software</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/schess.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Sevilla 92 - 1</div><div class="gi-year">1989 · Topo Soft</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/sevilla1.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Sevilla 92 - 2</div><div class="gi-year">1989 · Topo Soft</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/sevilla2.cdt" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Target Renegade</div><div class="gi-year">1988 · Ocean</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/TargetRenegade.cdt" download>⬇ DESCARGAR</a></div>
+    </div>
+
+    <div class="section-title" style="font-size:0.85rem;margin-top:2rem">
+      JUEGOS EN DISCO
+      <span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--green-dim);letter-spacing:1px">(.DSK)</span>
+    </div>
+    <div class="games-mini">
+      <div class="game-item"><div class="gi-title">1942</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/1942.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">After the War</div><div class="gi-year">1989 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/afterthewar.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Aspar GP</div><div class="gi-year">1988 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/aspar.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Barbarian</div><div class="gi-year">1987 · Palace Software</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/barbarian.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Beyond the Ice Palace</div><div class="gi-year">1988 · Elite</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/beyond.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Bomb Jack</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/bombjack.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Bruce Lee</div><div class="gi-year">1984 · US Gold</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/brucelee.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">El Buitre</div><div class="gi-year">1988 · Topo Soft</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/buitre.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Camelot Warriors</div><div class="gi-year">1986 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/camelot.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Commando</div><div class="gi-year">1985 · Elite</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/commando.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Curro Jimenez</div><div class="gi-year">1989 · Zigurat</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/curro.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Fernando Martin Basket Master</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/fernando.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Freddy Hardest en Manhattan Sur</div><div class="gi-year">1989 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/freddy-hardest-en-manhattan-sur.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Freddy Hardest</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/freddy.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Frost Byte</div><div class="gi-year">1986 · Mikro-Gen</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/Frost_Byte.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Game Over</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/gameover.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Ghosts 'n Goblins</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/ghostn.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Glider Rider</div><div class="gi-year">1986 · Quicksilva</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/Glider_Rider.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Ikari Warriors</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/Ikari Warriors.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Jail Break</div><div class="gi-year">1986 · Konami</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/jail_break.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Navy Moves</div><div class="gi-year">1988 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/navy.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Nemesis</div><div class="gi-year">1986 · Konami</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/nemesis.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Oh Mummy (Spanish)</div><div class="gi-year">1984 · Amsoft</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/oh mummy (spanish).dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Phantis</div><div class="gi-year">1987 · Dinamic</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/phantis.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">El Poder Oscuro</div><div class="gi-year">1988 · Zigurat</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/poder_oscuro.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Rygar</div><div class="gi-year">1987 · US Gold</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/rygar.DSK" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">Sevilla 92</div><div class="gi-year">1989 · Topo Soft</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/sevilla.dsk" download>⬇ DESCARGAR</a></div>
+<div class="game-item"><div class="gi-title">The Way Of The Exploding Fist</div><div class="gi-year">1985 · Melbourne House</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/The Way Of The Exploding Fist (UK) (1985) (v2) (Trainer).dsk" download>⬇ DESCARGAR</a></div>
+    </div>
+
+  </div>
+
+  <!-- ACERCA DE -->
+  <div id="acerca">
+    <div class="section-title">ACERCA DE ESTA WEB</div>
+
+    <div class="hero-box" data-label="ACERCA.BAS" style="margin-bottom:1.5rem">
+      <p>
+        <span class="prompt">REM</span> <span style="color:var(--amber)">AMSTRAD_WORLD.HTML — Versión 2.1</span><br><br>
+        <span class="prompt">10</span> Esta web nació como un proyecto personal para documentar y compartir todo lo relacionado con el Amstrad CPC: su historia, sus modelos, sus juegos y especialmente la cultura de los <strong style="color:var(--amber)">POKES</strong> que tantas horas de juego nos regaló a los que crecimos con estas máquinas.  Aquí encontrarás mi colección de juegos en cinta con las cargas optimizadas, funcionan en la máquina real, logrando tiempos más rápidos que mejoran la experiencia de juego.<br><br>
+        <span class="prompt">20</span> El objetivo no es ser una enciclopedia exhaustiva (para eso ya está CPCWiki), sino un espacio más <em>personal y vivido</em>: con las anécdotas de quien realmente usó estos ordenadores, con los pokes que realmente funcionaban y con el amor de quien todavía guarda sus cassettes en cajas de plástico transparente.<br><br>
+        <span class="prompt">30</span> Todo el contenido está escrito y verificado manualmente. Los juegos han sido probados en hardware real o en emuladores con verificación cruzada. Si encuentras un error o quieres contribuir, ¡escríbeme en Contacto!
+      </p>
+    </div>
+  
+    <div style="margin-top:1.5rem;border:1px solid var(--border);padding:1.2rem;font-size:0.8rem;color:#005500;line-height:1.9">
+      <span style="color:var(--amber)">AVISO LEGAL //</span> Todos los nombres de juegos, marcas y logotipos mencionados pertenecen a sus respectivos propietarios. Web sin ánimo de lucro creada con fines nostálgicos, educativos y de documentación histórica. Los pokes publicados son de dominio público dentro de la comunidad retro desde hace décadas.
+    </div>
+  </div>
+
+  <!-- CONTACTO -->
+  <div id="contacto">
+    <div class="section-title">CONTACTO</div>
+
+    <div class="notice">
+      ¿Tienes un poke que no está en la lista? ¿Una corrección? ¿Quieres compartir tu historia con el Amstrad? <strong style="color:var(--green)">¡Escríbeme!</strong> La comunidad retro vive de compartir y preservar el conocimiento de estas máquinas maravillosas.
+    </div>
+
+    <div class="terminal" style="max-width:650px">
+      <div style="color:var(--amber);font-family:'VT323',monospace;font-size:1.2rem;margin-bottom:1.2rem;letter-spacing:2px">
+        AMSTRAD_WORLD CONTACT FORM v1.0
+      </div>
+      <form action="https://formspree.io/f/mdkeyobz" method="POST">
+      <div class="form-field">
+        <label class="form-label">NOMBRE / ALIAS:</label>
+	<input type="text" class="form-input" placeholder="TU_NICK_CPC" id="nombre" required>
+
+      </div>
+      <div class="form-field">
+        <label class="form-label">EMAIL:</label>
+ 	<input type="email" class="form-input" placeholder="tu@correo.es" id="email" required>
+        
+      </div>
+      <div class="form-field">
+        <label class="form-label">MENSAJE:</label>
+	<textarea class="form-input" rows="5" placeholder="10 REM Escribe aquí tu mensaje&#10;20 REM Max 500 caracteres&#10;30 END" id="mensaje" name="mensaje" style="resize:vertical"> required</textarea>
+       
+      </div>
+      <div style="margin-top:1.2rem;display:flex;gap:1rem;flex-wrap:wrap">
+        <button class="crt-btn" type="submit">▶ RUN — ENVIAR</button>  
+      </div>
+	</form>  
+    <div id="form-msg" style="margin-top:1rem;font-size:0.82rem;display:none"></div>
+    </div>
+
+    <div class="section-title" style="font-size:0.85rem;margin-top:2.5rem">COMUNIDADES, EMULADORES Y LINKS</div>
+    <div class="links-grid">
+      <a href="https://www.retrovirtualmachine.org/" target="_blank" class="link-card">
+        <div class="lc-icon">◈</div>
+        <div class="lc-title">RETRO Virtual Machine</div>
+        <div class="lc-url">www.retrovirtualmachine.org</div>
+        <div class="lc-desc">Es un emulador versátil que permite revivir sistemas clásicos</div>
+      </a>
+      <a href="https://www.amstrad.es" target="_blank" class="link-card">
+        <div class="lc-icon">◈</div>
+        <div class="lc-title">Amstrad.es</div>
+        <div class="lc-url">amstrad.es</div>
+        <div class="lc-desc">Foro y comunidad en español</div>
+      </a>
+      <a href="https://retroaccion.org" target="_blank" class="link-card">
+        <div class="lc-icon">▶</div>
+        <div class="lc-title">RetroAcción</div>
+        <div class="lc-url">retroaccion.org</div>
+        <div class="lc-desc">Comunidad retro hispana — noticias y foros</div>
+      </a>
+      <a href="https://www.cpcmania.com" target="_blank" class="link-card">
+        <div class="lc-icon">◈</div>
+        <div class="lc-title">CPCMania</div>
+        <div class="lc-url">www.cpcmania.com</div>
+        <div class="lc-desc">Esta página es un pequeño tributo al Amstrad CPC</div>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div style="font-family:'VT323',monospace;font-size:1.2rem;color:var(--green-dim);margin-bottom:0.5rem">
+    ◄ AMSTRAD WORLD ► — LA REFERENCIA RETRO
+  </div>
+  <span>AMSTRAD CPC — Z80 @ 4MHz — 27 COLORES — AY-3-8912 SOUND CHIP</span><br><br>
+  <span style="color:#001f00">© 1984-2026 — MADE WITH LOVE FOR THE RETRO SCENE — ALL YOUR BASE ARE BELONG TO US</span>
+</footer>
+
+<script>
+  function enviarFormulario() {
+    const nombre = document.getElementById('f-nombre').value.trim();
+    const email  = document.getElementById('f-email').value.trim();
+    const asunto = document.getElementById('f-asunto').value;
+    const mensaje= document.getElementById('f-mensaje').value.trim();
+    const msg    = document.getElementById('form-msg');
+    if (!nombre || !email || !asunto || !mensaje) {
+      msg.style.display = 'block'; msg.style.color = 'var(--red)';
+      msg.innerHTML = '⚠ ERROR: Todos los campos son obligatorios. <span class="cursor"></span>';
+      return;
+    }
+    if (!email.includes('@')) {
+      msg.style.display = 'block'; msg.style.color = 'var(--red)';
+      msg.innerHTML = '⚠ ERROR: Email no válido.'; return;
+    }
+    msg.style.display = 'block'; msg.style.color = 'var(--amber)';
+    msg.innerHTML = 'PROCESANDO... ▓▓▓▓▓▓▓▓░░';
+    setTimeout(() => {
+      msg.style.color = 'var(--green)';
+      msg.innerHTML = `✓ MENSAJE ENVIADO<br><span style="color:#006610;font-size:0.75rem">De: ${nombre} &lt;${email}&gt; · ${asunto}</span>`;
+      limpiarFormulario(false);
+    }, 1200);
+  }
+
+  function limpiarFormulario(clearMsg = true) {
+    ['f-nombre','f-email','f-asunto','f-mensaje'].forEach(id => document.getElementById(id).value = '');
+    if (clearMsg) { const m = document.getElementById('form-msg'); m.style.display='none'; m.innerHTML=''; }
+  }
+
+  const h1 = document.querySelector('h1');
+  setInterval(() => {
+    if (Math.random() < 0.05) {
+      h1.style.animation = 'glitch 0.2s steps(1) infinite, pulse-glow 3s ease-in-out infinite';
+      setTimeout(() => { h1.style.animation = 'pulse-glow 3s ease-in-out infinite'; }, 300);
+    }
+  }, 2000);
+
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(a => {
+      const active = a.getAttribute('href') === '#' + current;
+      a.style.color = active ? 'var(--green)' : '';
+      a.style.borderBottom = active ? '2px solid var(--green)' : '';
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+ El volumen de la unidad D no tiene etiqueta.
+ El n£mero de serie del volumen es: A7B1-3540
+
+ Directorio de D:\Users\Nomar6\Documents\webAmstrad\V2\dsk
+
+09/03/2026  12:02    <DIR>          .
+09/03/2026  12:02    <DIR>          ..
+21/05/2025  16:52           194.816 1942.dsk
+13/12/2024  14:04           194.816 afterthewar.dsk
+17/02/2025  23:59           194.816 aspar.dsk
+14/01/2025  11:40           194.816 barbarian.dsk
+10/02/2025  16:31           194.816 beyond.dsk
+02/05/2025  22:03           194.816 bombjack.dsk
+05/01/2025  01:59           194.816 brucelee.dsk
+17/03/2025  23:07           194.816 buitre.dsk
+02/12/2024  11:54           194.816 camelot.dsk
+29/01/2025  13:00           194.816 commando.dsk
+18/02/2025  13:38           194.816 curro.dsk
+09/03/2026  12:02                 0 dsk.txt
+30/01/2025  18:43           194.816 fernando.dsk
+19/04/2025  23:51           194.816 freddy-hardest-en-manhattan-sur.dsk
+14/11/2024  23:03           194.816 freddy.dsk
+19/02/2025  19:02           194.816 Frost_Byte.dsk
+19/01/2025  16:34           194.816 gameover.dsk
+21/11/2024  12:11           194.816 ghostn.dsk
+02/12/2024  16:06           194.816 Glider_Rider.dsk
+02/01/2025  23:39           199.680 Ikari Warriors.dsk
+01/05/2025  12:53           194.816 jail_break.dsk
+22/01/2025  01:41           194.816 navy.dsk
+23/05/2025  00:50           194.816 nemesis.dsk
+17/11/2025  11:23           194.816 oh mummy (spanish).dsk
+12/04/2025  12:30           194.816 phantis.dsk
+09/05/2025  00:13           194.816 poder_oscuro.dsk
+04/12/2024  00:16           194.816 rygar.DSK
+15/02/2025  01:45           194.816 sevilla.dsk
+08/04/2025  17:13           194.816 The Way Of The Exploding Fist (UK) (1985) (v2) (Trainer).dsk
+              29 archivos      5.459.712 bytes
+               2 dirs  334.318.661.632 bytes libres
