@@ -1,1 +1,2 @@
-# amstrad
+Esta web nació como un proyecto personal para documentar y compartir todo lo relacionado con el Amstrad CPC: su historia, sus modelos, sus juegos y especialmente la cultura de los que tantas horas de juego nos regaló a los que crecimos con estas máquinas.
+Aquí encontrarás mi colección de juegos en cinta con las cargas optimizadas, funcionan en la máquina real, logrando tiempos más rápidos que mejoran la experiencia de juego.
