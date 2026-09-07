@@ -1,4 +1,4 @@
-REM AMSTRAD_WORLD.HTML — Versión 2.1
+REM AMSTRAD_WORLD.HTML — Versión 2.1 https://nomar2.github.io/amstrad/
 
 10 Esta web nació como un proyecto personal para documentar y compartir todo lo relacionado con el Amstrad CPC: su historia, sus modelos, sus juegos y especialmente la cultura de los pokes que tantas horas de juego nos regaló a los que crecimos con estas máquinas. Aquí encontrarás mi colección de juegos pokeados en cinta con las cargas optimizadas, funcionan en la máquina real, logrando tiempos más rápidos que mejoran la experiencia de juego.
 
