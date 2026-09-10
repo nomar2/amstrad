@@ -5,3 +5,8 @@ REM AMSTRAD_WORLD.HTML — Versión 2.1
 20 El objetivo no es ser una enciclopedia exhaustiva (para eso ya está CPCWiki), sino un espacio más personal y vivido: con las anécdotas de quien realmente usó estos ordenadores, con los pokes que realmente funcionaban y con el amor de quien todavía guarda sus cassettes en cajas de plástico transparente.
 
 30 Todo el contenido está escrito y verificado manualmente. Los juegos han sido probados en hardware real o en emuladores con verificación cruzada. Si encuentras un error o quieres contribuir, ¡escríbeme en Contacto!
+# ◄ AMSTRAD WORLD ►
+
+![Captura de la web](amstrad.png)
+
+Web tributo al Amstrad CPC: historia, modelos, preservación y colección de juegos pokeados con cargas optimizadas.
