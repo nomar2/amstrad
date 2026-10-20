@@ -305,6 +305,7 @@
   <a href="#historia">HISTORIA</a>
   <a href="#modelos">MODELOS</a>
   <a href="#coleccion">MI COLECCIÓN</a>
+  <a href="#emulador">EMULADOR WEB</a>
   <a href="#acerca">ACERCA DE</a>
   <a href="#contacto">CONTACTO</a>
 </nav>
@@ -501,10 +502,11 @@
 <div class="game-item"><div class="gi-title">Vixen She Fox 1</div><div class="gi-year">1988 · Martech</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/vixen1.cdt" download>⬇ DESCARGAR</a></div>
 <div class="game-item"><div class="gi-title">Vixen She Fox 2</div><div class="gi-year">1988 · Martech</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/vixen2.cdt" download>⬇ DESCARGAR</a></div>
 <div class="game-item"><div class="gi-title">Vixen She Fox 3</div><div class="gi-year">1988 · Martech</div><div class="gi-badge badge-cinta">CINTA</div><a class="dl-btn" href="cdt/vixen3.cdt" download>⬇ DESCARGAR</a></div>
-</div>
+    </div>
+
     <div class="section-title" style="font-size:0.85rem;margin-top:2rem">
-      JUEGOS EN DISCO
-      <span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--green-dim);letter-spacing:1px">(.DSK)</span>
+    JUEGOS EN DISCO
+    <span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--green-dim);letter-spacing:1px">(.DSK)</span>
     </div>
     <div class="games-mini">
       <div class="game-item"><div class="gi-title">1942</div><div class="gi-year">1986 · Elite</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/1942.dsk" download>⬇ DESCARGAR</a></div>
@@ -539,8 +541,183 @@
 <div class="game-item"><div class="gi-title">The Way Of The Exploding Fist</div><div class="gi-year">1985 · Melbourne House</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/The Way Of The Exploding Fist (UK) (1985) (v2) (Trainer).dsk" download>⬇ DESCARGAR</a></div>
 <div class="game-item"><div class="gi-title">Vixen She Fox</div><div class="gi-year">1988 · Martech</div><div class="gi-badge badge-disco">DISCO</div><a class="dl-btn" href="dsk/Vixen (1988).dsk" download>⬇ DESCARGAR</a></div>
     </div>
-
+<!-- emulador -->
+  <div id="emulador">
+    <div class="section-title">Emulador Web</div>
+            <div class="lc-title"><span style="color:var(--amber)">Emulador Web</span></div>
+        <div class="lc-desc">La emulación web es una tecnología que permite ejecutar software, sistemas operativos, consolas de videojuegos o ordenadores antiguos directamente dentro de un navegador web moderno (como Google Chrome, Firefox o Edge) sin necesidad de instalar programas adicionales ni plugins externos (como solía ocurrir antiguamente con Flash).</div>
+<title>Amstrad CPC 6128 - Catálogo DSK</title>
+  <script src="https://cdn.rvmplayer.org/rvmplayer.cpc6128.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #121212;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #ffffff;
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .main-container {
+      display: flex;
+      gap: 25px;
+      align-items: flex-start;
+    }
+    /* Estilo corregido para el menú lateral */
+    .game-list-container {
+      background: #1e1e1e;
+      border: 2px solid #00ff00;
+      border-radius: 6px;
+      padding: 15px;
+      width: 300px;
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
+    .game-list-container h3 {
+      margin: 0 0 15px 0;
+      color: #00ff00;
+      font-size: 16px;
+      border-bottom: 1px solid #00ff00;
+      padding-bottom: 8px;
+      text-align: center;
+    }
+    .game-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      padding-right: 5px;
+      height: 100%;
+    }
+    /* Scrollbar personalizada */
+    .game-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .game-list::-webkit-scrollbar-thumb {
+      background: #00ff00;
+      border-radius: 3px;
+    }
+    .game-list::-webkit-scrollbar-track {
+      background: #111;
+    }
+    /* Botones corregidos */
+    .btn-game {
+      background: #000000;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      border-radius: 4px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: left;
+      line-height: 1.2;
+      width: 100%;
+      height: auto;
+      min-height: 38px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: all 0.15s ease-in-out;
+    }
+    .btn-game:hover {
+      background: #00ff00;
+      color: #000000;
+    }
+    /* Contenedor del emulador */
+    #emulator-container {
+      width: 800px;
+      height: 600px;
+      background: #000000;
+      border: 2px solid #00ff00;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <h1>Amstrad CPC 6128 - Catálogo DSK</h1>
+  <div class="main-container">
+    <div class="game-list-container">
+      <h3>Juegos (.dsk)</h3>
+      <div class="game-list">
+        <!-- Botón para apagar el emulador -->
+        <button class="btn-game btn-reset" onclick="reiniciarEmulador()">⏻ Apagar / Reiniciar</button>
+        <button class="btn-game" onclick="cargarDisco('1942.dsk')">🎮 1942</button>
+        <button class="btn-game" onclick="cargarDisco('afterthewar.dsk')">🎮 After The War</button>
+        <button class="btn-game" onclick="cargarDisco('ARMYMOVE.DSK')">🎮 Army Moves</button>
+        <button class="btn-game" onclick="cargarDisco('aspar.dsk')">🎮 Aspar GP Master</button>
+        <button class="btn-game" onclick="cargarDisco('barbarian.dsk')">🎮 Barbarian</button>
+        <button class="btn-game" onclick="cargarDisco('beyond.dsk')">🎮 Beyond the Ice Palace</button>
+        <button class="btn-game" onclick="cargarDisco('bombjack.dsk')">🎮 Bomb Jack</button>
+        <button class="btn-game" onclick="cargarDisco('brucelee.dsk')">🎮 Bruce Lee</button>
+        <button class="btn-game" onclick="cargarDisco('buitre.dsk')">🎮 El Buitre</button>
+        <button class="btn-game" onclick="cargarDisco('camelot.dsk')">🎮 Camelot Warriors</button>
+        <button class="btn-game" onclick="cargarDisco('commando.dsk')">🎮 Commando</button>
+        <button class="btn-game" onclick="cargarDisco('curro.dsk')">🎮 Curro Jiménez</button>
+        <button class="btn-game" onclick="cargarDisco('fernando.dsk')">🎮 Fernando Martín Basket</button>
+        <button class="btn-game" onclick="cargarDisco('freddy.dsk')">🎮 Freddy Hardest</button>
+        <button class="btn-game" onclick="cargarDisco('freddy-hardest-en-manhattan-sur.dsk')">🎮 Freddy Hardest M. Sur</button>
+        <button class="btn-game" onclick="cargarDisco('Frost_Byte.dsk')">🎮 Frost Byte</button>
+        <button class="btn-game" onclick="cargarDisco('gameover.dsk')">🎮 Game Over</button>
+        <button class="btn-game" onclick="cargarDisco('ghostn.dsk')">🎮 Ghosts 'n Goblins</button>
+        <button class="btn-game" onclick="cargarDisco('Glider_Rider.dsk')">🎮 Glider Rider</button>
+        <button class="btn-game" onclick="cargarDisco('Ikari Warriors.dsk')">🎮 Ikari Warriors</button>
+        <button class="btn-game" onclick="cargarDisco('jail_break.dsk')">🎮 Jail Break</button>
+        <button class="btn-game" onclick="cargarDisco('navy.dsk')">🎮 Navy Moves</button>
+        <button class="btn-game" onclick="cargarDisco('nemesis.dsk')">🎮 Nemesis</button>
+        <button class="btn-game" onclick="cargarDisco('oh mummy (spanish).dsk')">🎮 Oh Mummy</button>
+        <button class="btn-game" onclick="cargarDisco('phantis.dsk')">🎮 Phantis</button>
+        <button class="btn-game" onclick="cargarDisco('poder_oscuro.dsk')">🎮 El Poder Oscuro</button>
+        <button class="btn-game" onclick="cargarDisco('rygar.DSK')">🎮 Rygar</button>
+        <button class="btn-game" onclick="cargarDisco('sevilla.dsk')">🎮 Sevilla 92</button>
+        <button class="btn-game" onclick="cargarDisco('Sol Negro (S) (K7) (1988).dsk')">🎮 Sol Negro</button>
+        <button class="btn-game" onclick="cargarDisco('The Way Of The Exploding Fist (UK) (1985) (v2) (Trainer).dsk')">🎮 Exploding Fist</button>
+        <button class="btn-game" onclick="cargarDisco('Vixen (1988).dsk')">🎮 Vixen</button>
+      </div>
+    </div>
+    <div id="emulator-container"></div>
   </div>
+  <script>
+    const container = document.getElementById('emulator-container');
+    const baseUrl = 'https://nomar2.github.io/amstrad/dsk/';
+
+ function reiniciarEmulador() {
+  // Recarga la página por completo para detener audio y procesos en segundo plano
+  location.reload();
+}
+
+    function cargarDisco(nombreArchivo, comandoCustom) {
+      container.innerHTML = '';
+
+      const fullUrl = baseUrl + encodeURIComponent(nombreArchivo);
+
+      rvmPlayer_cpc6128(container, {
+        disk: {
+          type: 'dsk',
+          url: fullUrl
+        },
+        // Si no se le pasa un comando específico, envía run" y ejecuta
+        command: comandoCustom || 'cat\nrun"',
+        warpFrames: 50 * 3
+      });
+    }
+  </script>
+    
+    </div>
 
   <!-- ACERCA DE -->
   <div id="acerca">
@@ -610,7 +787,7 @@
         <div class="lc-desc">Foro y comunidad en español</div>
       </a>
       <a href="https://retroaccion.org" target="_blank" class="link-card">
-        <div class="lc-icon">▶</div>
+        <div class="lc-icon">◈</div>
         <div class="lc-title">RetroAcción</div>
         <div class="lc-url">retroaccion.org</div>
         <div class="lc-desc">Comunidad retro hispana — noticias y foros</div>
